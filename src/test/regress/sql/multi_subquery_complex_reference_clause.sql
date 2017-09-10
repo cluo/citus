@@ -771,6 +771,12 @@ GROUP BY 1
 ORDER BY 2 DESC, 1 DESC
 LIMIT 5;
 
+SELECT foo.user_id FROM
+(
+  SELECT m.user_id, random() FROM users_table m JOIN events_reference_table r ON int4eq(m.user_id, r.user_id)
+  WHERE event_type > 100000
+) as foo;
+
 DROP TABLE user_buy_test_table;
 DROP TABLE users_ref_test_table;
 DROP TABLE users_return_test_table;

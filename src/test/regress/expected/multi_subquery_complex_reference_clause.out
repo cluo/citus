@@ -927,6 +927,15 @@ ORDER BY 2 DESC, 1 DESC
 LIMIT 5;
 ERROR:  cannot pushdown the subquery since all relations are not joined using distribution keys
 DETAIL:  Each relation should be joined with at least one another relation using distribution keys and equality operator.
+SELECT foo.user_id FROM
+(
+  SELECT m.user_id, random() FROM users_table m JOIN events_reference_table r ON int4eq(m.user_id, r.user_id)
+  WHERE event_type > 100000
+) as foo;
+ user_id 
+---------
+(0 rows)
+
 DROP TABLE user_buy_test_table;
 DROP TABLE users_ref_test_table;
 DROP TABLE users_return_test_table;

@@ -3096,7 +3096,11 @@ PartitionColumnOpExpressionList(Query *query)
 		rangeTableEntryIndex = candidatePartitionColumn->varno - 1;
 		rangeTableEntry = list_nth(rangetableList, rangeTableEntryIndex);
 
-		Assert(rangeTableEntry->rtekind == RTE_RELATION);
+		/* when user refers to a column from the JOIN instead of the relation */
+		if (rangeTableEntry->rtekind != RTE_RELATION)
+		{
+			continue;
+		}
 
 		relationId = rangeTableEntry->relid;
 		partitionColumn = DistPartitionKey(relationId);
