@@ -30,7 +30,7 @@ SELECT l_shipmode, sum(l_extendedprice * l_discount) as revenue
     GROUP BY l_shipmode HAVING sum(l_quantity) > 24
     ORDER BY 2 DESC, 1 ASC LIMIT 3;
 
--- push down if grouped by multiple rows one of which is partition column
+-- push down if grouped by multiple columns one of which is partition column
 SELECT l_shipmode, l_orderkey, sum(l_extendedprice * l_discount) as revenue
     FROM lineitem_hash
     GROUP BY l_shipmode, l_orderkey HAVING sum(l_quantity) > 24
